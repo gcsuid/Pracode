@@ -1,0 +1,146 @@
+{
+  "project": "dsa-memory-trainer",
+  "last_updated": "2026-06-23",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "status_legend": {
+    "not_started": "Work has not begun.",
+    "in_progress": "Currently being implemented.",
+    "blocked": "Waiting on dependency.",
+    "passing": "Verification completed successfully."
+  },
+  "features": [
+    {
+      "id": "phase-001",
+      "priority": 1,
+      "area": "database",
+      "title": "Database Foundation",
+      "user_visible_behavior": "Questions can be stored and retrieved from persistent storage.",
+      "status": "not_started",
+      "verification": [
+        "Configure SQLAlchemy.",
+        "Create Question model.",
+        "Initialize SQLite database.",
+        "Insert test record.",
+        "Retrieve test record."
+      ],
+      "evidence": [],
+      "notes": "Foundation for all future features."
+    },
+    {
+      "id": "phase-002",
+      "priority": 2,
+      "area": "logging",
+      "title": "Question Logging APIs",
+      "user_visible_behavior": "User can create and view logged DSA questions.",
+      "status": "not_started",
+      "verification": [
+        "Create POST /questions endpoint.",
+        "Create GET /questions endpoint.",
+        "Create GET /questions/{id} endpoint.",
+        "Verify records are persisted."
+      ],
+      "evidence": [],
+      "notes": "Stores LeetCode ID, title and user approach."
+    },
+    {
+      "id": "phase-003",
+      "priority": 3,
+      "area": "practice",
+      "title": "Practice Engine",
+      "user_visible_behavior": "User can start practice sessions using previously logged questions.",
+      "status": "not_started",
+      "verification": [
+        "Log at least 5 questions.",
+        "Create random question selector.",
+        "Verify practice session returns random questions.",
+        "Store practice history."
+      ],
+      "evidence": [],
+      "notes": "No AI involved yet."
+    },
+    {
+      "id": "phase-004",
+      "priority": 4,
+      "area": "ai",
+      "title": "Question Rephrasing",
+      "user_visible_behavior": "Questions are rewritten before being shown during practice.",
+      "status": "not_started",
+      "verification": [
+        "Load VibeThinker model.",
+        "Generate rephrased question.",
+        "Verify logic remains unchanged.",
+        "Verify wording differs from original."
+      ],
+      "evidence": [],
+      "notes": "Uses transformers integration from tensor.txt."
+    },
+    {
+      "id": "phase-005",
+      "priority": 5,
+      "area": "ai",
+      "title": "Recall Evaluation",
+      "user_visible_behavior": "User receives feedback on how accurately they remembered a solution.",
+      "status": "not_started",
+      "verification": [
+        "Submit stored approach and recall attempt.",
+        "Generate evaluation response.",
+        "Return score.",
+        "Return strengths and missing concepts."
+      ],
+      "evidence": [],
+      "notes": "Core learning feedback mechanism."
+    },
+    {
+      "id": "phase-006",
+      "priority": 6,
+      "area": "ai",
+      "title": "Pattern Extraction",
+      "user_visible_behavior": "System automatically identifies DSA patterns from logged approaches.",
+      "status": "not_started",
+      "verification": [
+        "Submit approach text.",
+        "Extract primary pattern.",
+        "Store pattern in database.",
+        "Verify classification accuracy manually."
+      ],
+      "evidence": [],
+      "notes": "Examples include Sliding Window, BFS, DFS, DP, Two Pointers."
+    },
+    {
+      "id": "phase-007",
+      "priority": 7,
+      "area": "spaced-repetition",
+      "title": "Review Scheduling",
+      "user_visible_behavior": "Questions receive future review dates based on recall performance.",
+      "status": "not_started",
+      "verification": [
+        "Create ReviewSchedule model.",
+        "Assign next review date after practice.",
+        "Update interval after multiple reviews.",
+        "Verify due dates are generated correctly."
+      ],
+      "evidence": [],
+      "notes": "First implementation of spaced repetition."
+    },
+    {
+      "id": "phase-008",
+      "priority": 8,
+      "area": "spaced-repetition",
+      "title": "Due Question Prioritization",
+      "user_visible_behavior": "Questions due for review are prioritized during practice.",
+      "status": "not_started",
+      "verification": [
+        "Create overdue questions.",
+        "Start practice session.",
+        "Verify overdue questions appear first.",
+        "Verify random selection is used only when no due questions exist."
+      ],
+      "evidence": [],
+      "notes": "Completes the spaced repetition workflow."
+    }
+  ]
+}

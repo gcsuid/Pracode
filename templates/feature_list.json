@@ -1,6 +1,6 @@
 {
   "project": "dsa-memory-trainer",
-  "last_updated": "2026-06-23",
+  "last_updated": "2026-07-01",
   "rules": {
     "single_active_feature": true,
     "passing_requires_evidence": true,
@@ -19,7 +19,7 @@
       "area": "database",
       "title": "Database Foundation",
       "user_visible_behavior": "Questions can be stored and retrieved from persistent storage.",
-      "status": "not_started",
+      "status": "passing",
       "verification": [
         "Configure SQLAlchemy.",
         "Create Question model.",
@@ -27,8 +27,8 @@
         "Insert test record.",
         "Retrieve test record."
       ],
-      "evidence": [],
-      "notes": "Foundation for all future features."
+      "evidence": ["python -m pytest -q (3 passed)"],
+      "notes": "Implemented with SQLAlchemy + SQLite defaults via DATABASE_URL."
     },
     {
       "id": "phase-002",
@@ -36,15 +36,15 @@
       "area": "logging",
       "title": "Question Logging APIs",
       "user_visible_behavior": "User can create and view logged DSA questions.",
-      "status": "not_started",
+      "status": "passing",
       "verification": [
         "Create POST /questions endpoint.",
         "Create GET /questions endpoint.",
         "Create GET /questions/{id} endpoint.",
         "Verify records are persisted."
       ],
-      "evidence": [],
-      "notes": "Stores LeetCode ID, title and user approach."
+      "evidence": ["python -m pytest -q (3 passed)"],
+      "notes": "Implemented POST /questions, GET /questions, and GET /questions/{id}."
     },
     {
       "id": "phase-003",
@@ -60,7 +60,7 @@
         "Store practice history."
       ],
       "evidence": [],
-      "notes": "No AI involved yet."
+      "notes": "Next target after baseline logging flows are stable."
     },
     {
       "id": "phase-004",
@@ -70,13 +70,13 @@
       "user_visible_behavior": "Questions are rewritten before being shown during practice.",
       "status": "not_started",
       "verification": [
-        "Load VibeThinker model.",
+        "Load qwen2.5:3b through Ollama.",
         "Generate rephrased question.",
         "Verify logic remains unchanged.",
         "Verify wording differs from original."
       ],
       "evidence": [],
-      "notes": "Uses transformers integration from tensor.txt."
+      "notes": "Pending after practice engine is in place."
     },
     {
       "id": "phase-005",
@@ -92,7 +92,7 @@
         "Return strengths and missing concepts."
       ],
       "evidence": [],
-      "notes": "Core learning feedback mechanism."
+      "notes": "Pending after question rephrasing support."
     },
     {
       "id": "phase-006",
@@ -108,7 +108,7 @@
         "Verify classification accuracy manually."
       ],
       "evidence": [],
-      "notes": "Examples include Sliding Window, BFS, DFS, DP, Two Pointers."
+      "notes": "Pending future AI feature work."
     },
     {
       "id": "phase-007",
@@ -124,7 +124,7 @@
         "Verify due dates are generated correctly."
       ],
       "evidence": [],
-      "notes": "First implementation of spaced repetition."
+      "notes": "Will build on stored practice outcomes."
     },
     {
       "id": "phase-008",
@@ -140,7 +140,7 @@
         "Verify random selection is used only when no due questions exist."
       ],
       "evidence": [],
-      "notes": "Completes the spaced repetition workflow."
+      "notes": "Depends on review scheduling implementation."
     }
   ]
 }

@@ -165,7 +165,7 @@ SQLite / PostgreSQL
 
 ↓
 
-AI Services (VibeThinker-3B)
+AI Services (Ollama qwen2.5:3b)
 
 The architecture is intentionally modular to allow future expansion without major restructuring.
 
@@ -173,7 +173,7 @@ The architecture is intentionally modular to allow future expansion without majo
 
 # Artificial Intelligence Integration
 
-The application uses the VibeThinker-3B model through HuggingFace Transformers.
+The application uses Ollama to run the qwen2.5:3b model locally through its HTTP API.
 
 The model is responsible for:
 
@@ -210,7 +210,8 @@ Production:
 ## AI
 
 * HuggingFace Transformers
-* VibeThinker-3B
+* Ollama
+* qwen2.5:3b
 
 ## Configuration
 

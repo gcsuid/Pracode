@@ -3,8 +3,13 @@
 - Repository root: `C:\Users\KIIT\Desktop\personal_project\devprojects\Pracode`
 - Standard startup path: `python -m pip install -r requirements.txt` then `python -m pytest -q`
 - Standard app start: `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000`
+<<<<<<< Updated upstream
 - Current highest-priority unfinished feature: `phase-004` (Question Rephrasing)
 - Current blocker: none for database, logging, or practice features
+=======
+- Current highest-priority unfinished feature: none in the implemented MVP slice
+- Current blocker: Ollama must be running locally on the configured host for the default AI path to succeed
+>>>>>>> Stashed changes
 
 ## Session Log
 
@@ -43,6 +48,7 @@
 - Files or artifacts updated: `app/config.py`, `app/main.py`, `app/services/ai.py`, `tests/test_app.py`, `requirements.txt`, `progress.md`, `session-handoff.md`, `devsofar.md`, `templates/context.md`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`
 - Known risk or unresolved issue: none for the current migration
 - Next best step: keep Ollama running and verify `qwen2.5:3b` remains present in `ollama list`
+<<<<<<< Updated upstream
 
 ### Session 003
 
@@ -81,3 +87,5 @@
 - Files or artifacts updated: `app/main.py`, `app/models.py`, `app/schemas.py`, `tests/test_app.py`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`, `recent-developments.md`
 - Known risk or unresolved issue: AI-assisted rephrasing and evaluation features are still pending
 - Next best step: start `phase-004` by adding question rephrasing for practice prompts
+=======
+>>>>>>> Stashed changes

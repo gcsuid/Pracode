@@ -3,8 +3,8 @@
 - Repository root: `C:\Users\KIIT\Desktop\personal_project\devprojects\Pracode`
 - Standard startup path: `python -m pip install -r requirements.txt` then `python -m pytest -q`
 - Standard app start: `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000`
-- Current highest-priority unfinished feature: `phase-003` (Practice Engine)
-- Current blocker: none for database and logging features
+- Current highest-priority unfinished feature: `phase-004` (Question Rephrasing)
+- Current blocker: none for database, logging, or practice features
 
 ## Session Log
 
@@ -64,3 +64,20 @@
 - Files or artifacts updated: `app/*`, `tests/test_app.py`, `requirements.txt`, `init.sh`, `init.ps1`, `.gitignore`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`, `templates/init.sh`
 - Known risk or unresolved issue: `.pytest_cache` in this environment has restricted permissions and emits cache warnings, but tests pass.
 - Next best step: start `phase-003` by adding a practice-session model and endpoint that selects questions for recall.
+
+### Session 004
+
+- Date: 2026-07-02
+- Goal: Add the practice-session flow and leave a compact startup note for the next session.
+- Completed:
+  - Added a practice-session model backed by SQLite-compatible SQLAlchemy.
+  - Implemented `POST /practice/sessions` to return a random logged question and record the session.
+  - Implemented `GET /practice/sessions` to review practice history.
+  - Added tests for practice selection and the empty-question case.
+  - Wrote a short markdown note with app start and service-check commands.
+- Verification run: `python -m pytest -q`
+- Evidence captured: `5 passed`
+- Commits: not created in this session
+- Files or artifacts updated: `app/main.py`, `app/models.py`, `app/schemas.py`, `tests/test_app.py`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`, `recent-developments.md`
+- Known risk or unresolved issue: AI-assisted rephrasing and evaluation features are still pending
+- Next best step: start `phase-004` by adding question rephrasing for practice prompts

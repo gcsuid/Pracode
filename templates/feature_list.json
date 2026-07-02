@@ -1,6 +1,6 @@
 {
   "project": "dsa-memory-trainer",
-  "last_updated": "2026-07-01",
+  "last_updated": "2026-07-02",
   "rules": {
     "single_active_feature": true,
     "passing_requires_evidence": true,
@@ -52,15 +52,15 @@
       "area": "practice",
       "title": "Practice Engine",
       "user_visible_behavior": "User can start practice sessions using previously logged questions.",
-      "status": "not_started",
+      "status": "passing",
       "verification": [
         "Log at least 5 questions.",
         "Create random question selector.",
         "Verify practice session returns random questions.",
         "Store practice history."
       ],
-      "evidence": [],
-      "notes": "Next target after baseline logging flows are stable."
+      "evidence": ["python -m pytest -q (5 passed)"],
+      "notes": "Implemented practice session creation and history listing with random question selection."
     },
     {
       "id": "phase-004",

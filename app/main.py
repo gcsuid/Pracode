@@ -1,11 +1,12 @@
+import random
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, get_db
-from app.models import Question
-from app.schemas import QuestionCreate, QuestionRead
+from app.models import PracticeSession, Question
+from app.schemas import PracticeSessionRead, QuestionCreate, QuestionRead
 
 app = FastAPI(title="DSA Memory Trainer API")
 Base.metadata.create_all(bind=engine)
@@ -44,3 +45,23 @@ def get_question(question_id: int, db: Session = Depends(get_db)) -> Question:
     if question is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Question not found")
     return question
+
+
+@app.post("/practice/sessions", response_model=PracticeSessionRead, status_code=status.HTTP_201_CREATED)
+def start_practice_session(db: Session = Depends(get_db)) -> dict:
+    questions = db.query(Question).order_by(Question.created_at.asc(), Question.id.asc()).all()
+    if not questions:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No questions available for practice")
+
+    question = random.choice(questions)
+    session = PracticeSession(question_id=question.id)
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+    return {"id": session.id, "question": question, "created_at": session.created_at}
+
+
+@app.get("/practice/sessions", response_model=List[PracticeSessionRead])
+def list_practice_sessions(db: Session = Depends(get_db)) -> List[dict]:
+    sessions = db.query(PracticeSession).order_by(PracticeSession.created_at.desc(), PracticeSession.id.desc()).all()
+    return [{"id": session.id, "question": session.question, "created_at": session.created_at} for session in sessions]

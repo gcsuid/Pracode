@@ -1,10 +1,6 @@
 {
   "project": "dsa-memory-trainer",
-<<<<<<< Updated upstream
-  "last_updated": "2026-07-02",
-=======
   "last_updated": "2026-06-25",
->>>>>>> Stashed changes
   "rules": {
     "single_active_feature": true,
     "passing_requires_evidence": true,
@@ -31,13 +27,8 @@
         "Insert test record.",
         "Retrieve test record."
       ],
-<<<<<<< Updated upstream
-      "evidence": ["python -m pytest -q (3 passed)"],
-      "notes": "Implemented with SQLAlchemy + SQLite defaults via DATABASE_URL."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Foundation for all future features."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-002",
@@ -52,13 +43,8 @@
         "Create GET /questions/{id} endpoint.",
         "Verify records are persisted."
       ],
-<<<<<<< Updated upstream
-      "evidence": ["python -m pytest -q (3 passed)"],
-      "notes": "Implemented POST /questions, GET /questions, and GET /questions/{id}."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Stores LeetCode ID, title and user approach."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-003",
@@ -73,13 +59,8 @@
         "Verify practice session returns random questions.",
         "Store practice history."
       ],
-<<<<<<< Updated upstream
-      "evidence": ["python -m pytest -q (5 passed)"],
-      "notes": "Implemented practice session creation and history listing with random question selection."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Practice sessions select due questions first, otherwise random, and record practice history."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-004",
@@ -94,13 +75,8 @@
         "Verify logic remains unchanged.",
         "Verify wording differs from original."
       ],
-<<<<<<< Updated upstream
-      "evidence": [],
-      "notes": "Pending after practice engine is in place."
-=======
       "evidence": ["python -m pytest -q", "Ollama qwen2.5:3b is the default AI provider"],
       "notes": "Uses Ollama with qwen2.5:3b and a heuristic fallback when the local server is unavailable."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-005",
@@ -115,13 +91,8 @@
         "Return score.",
         "Return strengths and missing concepts."
       ],
-<<<<<<< Updated upstream
-      "evidence": [],
-      "notes": "Pending after question rephrasing support."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Core learning feedback mechanism. Ollama-backed evaluation is available when enabled."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-006",
@@ -136,13 +107,8 @@
         "Store pattern in database.",
         "Verify classification accuracy manually."
       ],
-<<<<<<< Updated upstream
-      "evidence": [],
-      "notes": "Pending future AI feature work."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Examples include Sliding Window, BFS, DFS, DP, Two Pointers."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-007",
@@ -157,13 +123,8 @@
         "Update interval after multiple reviews.",
         "Verify due dates are generated correctly."
       ],
-<<<<<<< Updated upstream
-      "evidence": [],
-      "notes": "Will build on stored practice outcomes."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "First implementation of spaced repetition."
->>>>>>> Stashed changes
     },
     {
       "id": "phase-008",
@@ -178,13 +139,8 @@
         "Verify overdue questions appear first.",
         "Verify random selection is used only when no due questions exist."
       ],
-<<<<<<< Updated upstream
-      "evidence": [],
-      "notes": "Depends on review scheduling implementation."
-=======
       "evidence": ["python -m pytest -q"],
       "notes": "Completes the spaced repetition workflow."
->>>>>>> Stashed changes
     }
   ]
 }

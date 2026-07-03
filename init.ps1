@@ -21,3 +21,4 @@ if ($env:RUN_START_COMMAND -eq "1") {
 else {
     Write-Host "Set RUN_START_COMMAND=1 if you want init.ps1 to launch the app directly."
 }
+#is it

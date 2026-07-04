@@ -43,3 +43,19 @@
 - Files or artifacts updated: `app/config.py`, `app/main.py`, `app/services/ai.py`, `tests/test_app.py`, `requirements.txt`, `progress.md`, `session-handoff.md`, `devsofar.md`, `templates/context.md`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`
 - Known risk or unresolved issue: none for the current migration
 - Next best step: keep Ollama running and verify `qwen2.5:3b` remains present in `ollama list`
+
+### Session 003
+
+- Date: 2026-07-04
+- Goal: Complete the remaining template features with stored pattern extraction, practice rephrasing, recall evaluation, and spaced-repetition scheduling.
+- Completed:
+  - Added question insight storage with automatic pattern extraction.
+  - Added practice prompt rephrasing and due-question prioritization.
+  - Added recall evaluation and review schedule updates.
+  - Added review-schedule inspection endpoints and updated the test suite.
+- Verification run: `python -m pytest -q`
+- Evidence captured: `7 passed`
+- Commits: not created in this session
+- Files or artifacts updated: `app/main.py`, `app/models.py`, `app/schemas.py`, `app/services.py`, `tests/test_app.py`, `templates/feature_list.json`, `templates/progress.md`, `templates/session-handoff.md`, `recent-developments.md`
+- Known risk or unresolved issue: Ollama remains optional; the heuristic fallback is used when the local server is unavailable
+- Next best step: start the API with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000` and verify practice, recall, and review flows end to end

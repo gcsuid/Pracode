@@ -1,6 +1,6 @@
 {
   "project": "dsa-memory-trainer",
-  "last_updated": "2026-06-25",
+  "last_updated": "2026-07-04",
   "rules": {
     "single_active_feature": true,
     "passing_requires_evidence": true,
@@ -27,7 +27,7 @@
         "Insert test record.",
         "Retrieve test record."
       ],
-      "evidence": ["python -m pytest -q"],
+      "evidence": ["python -m pytest -q (7 passed)"],
       "notes": "Foundation for all future features."
     },
     {
@@ -43,7 +43,7 @@
         "Create GET /questions/{id} endpoint.",
         "Verify records are persisted."
       ],
-      "evidence": ["python -m pytest -q"],
+      "evidence": ["python -m pytest -q (7 passed)"],
       "notes": "Stores LeetCode ID, title and user approach."
     },
     {
@@ -59,7 +59,7 @@
         "Verify practice session returns random questions.",
         "Store practice history."
       ],
-      "evidence": ["python -m pytest -q"],
+      "evidence": ["python -m pytest -q (7 passed)"],
       "notes": "Practice sessions select due questions first, otherwise random, and record practice history."
     },
     {
@@ -75,8 +75,8 @@
         "Verify logic remains unchanged.",
         "Verify wording differs from original."
       ],
-      "evidence": ["python -m pytest -q", "Ollama qwen2.5:3b is the default AI provider"],
-      "notes": "Uses Ollama with qwen2.5:3b and a heuristic fallback when the local server is unavailable."
+      "evidence": ["python -m pytest -q (7 passed)"],
+      "notes": "Uses Ollama with qwen2.5:3b when available and a heuristic fallback when the local server is unavailable."
     },
     {
       "id": "phase-005",
@@ -91,8 +91,8 @@
         "Return score.",
         "Return strengths and missing concepts."
       ],
-      "evidence": ["python -m pytest -q"],
-      "notes": "Core learning feedback mechanism. Ollama-backed evaluation is available when enabled."
+      "evidence": ["python -m pytest -q (7 passed)"],
+      "notes": "Core learning feedback mechanism. Recall attempts return a score, strengths, missing concepts, and feedback."
     },
     {
       "id": "phase-006",
@@ -107,8 +107,8 @@
         "Store pattern in database.",
         "Verify classification accuracy manually."
       ],
-      "evidence": ["python -m pytest -q"],
-      "notes": "Examples include Sliding Window, BFS, DFS, DP, Two Pointers."
+      "evidence": ["python -m pytest -q (7 passed)"],
+      "notes": "Pattern labels are inferred from the logged approach and stored alongside the question."
     },
     {
       "id": "phase-007",
@@ -123,8 +123,8 @@
         "Update interval after multiple reviews.",
         "Verify due dates are generated correctly."
       ],
-      "evidence": ["python -m pytest -q"],
-      "notes": "First implementation of spaced repetition."
+      "evidence": ["python -m pytest -q (7 passed)"],
+      "notes": "Review schedules are updated after recall attempts and track the next review date."
     },
     {
       "id": "phase-008",
@@ -139,8 +139,8 @@
         "Verify overdue questions appear first.",
         "Verify random selection is used only when no due questions exist."
       ],
-      "evidence": ["python -m pytest -q"],
-      "notes": "Completes the spaced repetition workflow."
+      "evidence": ["python -m pytest -q (7 passed)"],
+      "notes": "Due review questions are selected before falling back to random practice."
     }
   ]
 }

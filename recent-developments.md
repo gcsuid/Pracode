@@ -1,5 +1,3 @@
 # Recent Developments
 
-Start the app with `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000`.
-Check `GET /health`, `GET /questions`, `POST /practice/sessions`, and `GET /practice/sessions`.
-Use those routes to confirm the database, logging, and practice services are working.
+Implemented AI-backed practice polish and spaced-repetition plumbing: questions now store extracted patterns, practice sessions generate rephrased prompts, recall submissions produce scores and feedback, and review dates update automatically. Due questions are prioritized during practice, and the suite passes with 7 tests. Start with `python -m uvicorn app.main:app --port 8000` locally.

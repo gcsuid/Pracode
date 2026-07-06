@@ -11,6 +11,7 @@ from typing import Iterable
 
 DEFAULT_OLLAMA_HOST = "http://127.0.0.1:11434"
 DEFAULT_OLLAMA_MODEL = "qwen2.5:3b"
+DEFAULT_TRANSFORMERS_MODEL = "WeiboAI/VibeThinker-3B"
 
 STOPWORDS = {
     "a",
@@ -65,6 +66,10 @@ PATTERN_RULES = [
 ]
 
 
+class AIProviderError(RuntimeError):
+    pass
+
+
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -96,12 +101,12 @@ def _ollama_model() -> str:
     return os.getenv("OLLAMA_MODEL", DEFAULT_OLLAMA_MODEL)
 
 
+def _transformers_model() -> str:
+    return os.getenv("TRANSFORMERS_MODEL", DEFAULT_TRANSFORMERS_MODEL)
+
+
 def _ai_provider() -> str:
     return os.getenv("AI_PROVIDER", "ollama").strip().lower()
-
-
-def _use_ollama() -> bool:
-    return _ai_provider() == "ollama" and _ollama_is_available()
 
 
 @lru_cache(maxsize=1)
@@ -110,7 +115,7 @@ def _ollama_is_available() -> bool:
     try:
         with urllib.request.urlopen(request, timeout=1.0):
             return True
-    except Exception:
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
         return False
 
 
@@ -126,10 +131,71 @@ def _ollama_generate(prompt: str) -> str:
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=6.0) as response:
-        data = json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=6.0) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise AIProviderError("Ollama generation failed") from exc
     text = data.get("response") or data.get("message", {}).get("content") or ""
+    if not isinstance(text, str):
+        raise AIProviderError("Ollama response is missing text content")
     return text.strip()
+
+
+@lru_cache(maxsize=1)
+def _transformers_bundle() -> tuple[object, object]:
+    try:
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+    except ImportError as exc:
+        raise AIProviderError("Transformers dependencies are not installed") from exc
+
+    model_id = _transformers_model()
+    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            torch_dtype=dtype,
+            device_map="auto",
+            trust_remote_code=True,
+        )
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise AIProviderError(f"Failed to load transformers model {model_id}") from exc
+    return tokenizer, model
+
+
+def _transformers_generate(prompt: str) -> str:
+    tokenizer, model = _transformers_bundle()
+    messages = [{"role": "user", "content": prompt}]
+    try:
+        inputs = tokenizer.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_dict=True,
+            return_tensors="pt",
+        ).to(model.device)
+        outputs = model.generate(**inputs, max_new_tokens=120, do_sample=False)
+    except (RuntimeError, ValueError, TypeError) as exc:
+        raise AIProviderError("Transformers generation failed") from exc
+
+    generated_tokens = outputs[0][inputs["input_ids"].shape[-1] :]
+    generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+    if not generated_text:
+        raise AIProviderError("Transformers returned an empty response")
+    return generated_text
+
+
+def _generate_text(prompt: str) -> str:
+    provider = _ai_provider()
+    if provider == "ollama":
+        if not _ollama_is_available():
+            raise AIProviderError("Ollama is unavailable")
+        return _ollama_generate(prompt)
+    if provider == "transformers":
+        return _transformers_generate(prompt)
+    raise AIProviderError(f"Provider '{provider}' is not available for generation")
 
 
 def _canonical_pattern(text: str) -> str:
@@ -143,18 +209,17 @@ def _canonical_pattern(text: str) -> str:
 
 
 def detect_pattern(approach: str) -> str:
-    if _use_ollama():
-        prompt = (
-            "Classify the primary DSA pattern in the following approach.\n"
-            "Return only one concise pattern name from this set if possible: "
-            "Sliding Window, Two Pointers, Binary Search, Dynamic Programming, "
-            "Depth First Search, Breadth First Search, Greedy, Backtracking, Stack, Queue, Heap, Trie, Prefix Sum, Union Find, Topological Sort, Linked List, Tree, Graph.\n"
-            f"Approach: {approach}"
-        )
-        try:
-            return _canonical_pattern(_ollama_generate(prompt))
-        except Exception:
-            pass
+    prompt = (
+        "Classify the primary DSA pattern in the following approach.\n"
+        "Return only one concise pattern name from this set if possible: "
+        "Sliding Window, Two Pointers, Binary Search, Dynamic Programming, "
+        "Depth First Search, Breadth First Search, Greedy, Backtracking, Stack, Queue, Heap, Trie, Prefix Sum, Union Find, Topological Sort, Linked List, Tree, Graph.\n"
+        f"Approach: {approach}"
+    )
+    try:
+        return _canonical_pattern(_generate_text(prompt))
+    except AIProviderError:
+        pass
     return _canonical_pattern(approach)
 
 
@@ -165,13 +230,12 @@ def rephrase_question(title: str, approach: str) -> str:
         f"Problem title: {title}\n"
         f"Known solution clue: {approach}"
     )
-    if _use_ollama():
-        try:
-            rephrased = _ollama_generate(prompt_seed)
-            if rephrased:
-                return rephrased
-        except Exception:
-            pass
+    try:
+        rephrased = _generate_text(prompt_seed)
+        if rephrased:
+            return rephrased
+    except AIProviderError:
+        pass
 
     pattern = detect_pattern(approach)
     base = title.strip() or "the original problem"

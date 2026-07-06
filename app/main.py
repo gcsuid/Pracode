@@ -45,11 +45,15 @@ def _normalize_required_field(value: str) -> str:
 
 @app.get("/health")
 def health() -> dict:
+    ai_provider = os.getenv("AI_PROVIDER", "ollama")
     return {
         "status": "ok",
         "database": "sqlite",
-        "ai_provider": os.getenv("AI_PROVIDER", "ollama"),
+        "ai_provider": ai_provider,
         "ollama_model": os.getenv("OLLAMA_MODEL", "qwen2.5:3b"),
+        "transformers_model": os.getenv("TRANSFORMERS_MODEL", "WeiboAI/VibeThinker-3B")
+        if ai_provider == "transformers"
+        else None,
     }
 
 

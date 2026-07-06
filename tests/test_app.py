@@ -168,3 +168,13 @@ def test_due_questions_are_prioritized():
     assert session["question"]["id"] == first["id"]
     assert session["question"]["title"] == first["title"]
     assert second["id"] != session["question"]["id"]
+
+
+def test_rephrase_uses_transformers_provider(monkeypatch):
+    from app import services
+
+    monkeypatch.setenv("AI_PROVIDER", "transformers")
+    monkeypatch.setattr(services, "_transformers_generate", lambda _: "Transformed prompt")
+
+    result = services.rephrase_question("Two Sum", "Use a hash map.")
+    assert result == "Transformed prompt"
